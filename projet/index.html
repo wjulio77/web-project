@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern French Gastronomy</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>Modern French Gastronomy</h1>
+            <h2>Elegance & Flavor, Redefined</h2>
+        </header>
+
+        <main id="app" class="main-content">
+            <section class="card">
+                <img v-bind:src="dishes[currentIndex].image" v-bind:alt="dishes[currentIndex].title" class="dish-img">
+                <div class="text-content">
+                    <h2 v-text="isFlipped ? '' : dishes[currentIndex].title"></h2>
+                    <p v-text="isFlipped ? dishes[currentIndex].desc : ''"></p>
+                </div>
+            </section>
+
+            <div class="controls">
+                <button @click="prevDish">⟵ Previous</button>
+                <button @click="toggleView">🍽 Toggle</button>
+                <button @click="nextDish">Next ⟶</button>
+            </div>
+        </main>
+
+        <footer>
+            &copy; <span id="year"></span> - French Haute Cuisine Experience
+        </footer>
+    </div>
+
+    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    
+    <script src="./data/data.js"></script>
+
+    
+    <script>
+        const gastronomyApp = {
+            data() {
+                return {
+                    dishes,
+                    currentIndex: 0,
+                    isFlipped: false
+                }
+            },
+            methods: {
+                nextDish() {
+                    this.currentIndex = (this.currentIndex + 1) % this.dishes.length;
+                    this.isFlipped = false;
+                },
+                prevDish() {
+                    this.currentIndex = (this.currentIndex - 1 + this.dishes.length) % this.dishes.length;
+                    this.isFlipped = false;
+                },
+                toggleView() {
+                    this.isFlipped = !this.isFlipped;
+                }
+            }
+        }
+
+        const app = Vue.createApp(gastronomyApp).mount("#app");
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
